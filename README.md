@@ -1,0 +1,2 @@
+# partial-view
+Fragment successor
