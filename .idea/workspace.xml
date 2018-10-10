@@ -9,7 +9,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c5615c81-e035-4fff-bfbe-dc5e1e622dd7" name="Default" comment="" />
+    <list default="true" id="c5615c81-e035-4fff-bfbe-dc5e1e622dd7" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -3307,7 +3309,37 @@
             </path>
             <path>
               <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
               <item name="partialview" type="feadf853:AndroidModuleNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="partialview" type="feadf853:AndroidModuleNode" />
+              <item name="manifests" type="f94875db:AndroidManifestsGroupNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="partialview" type="feadf853:AndroidModuleNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+            </path>
+            <path>
+              <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
+              <item name="partialview" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="FragmentKiller" type="1abcf292:AndroidViewProjectNode" />
