@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:padding="16dp">
+
+	<EditText
+		android:id="@+id/etText"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/shape_input"
+		android:hint="Digite aqui"
+		android:padding="16dp"
+		android:textColor="@android:color/black" />
+
+	<Button
+		android:id="@+id/btnRegister"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:background="@drawable/shape_button"
+		android:foreground="?attr/selectableItemBackground"
+		android:text="Cadastrar"
+		android:textColor="@android:color/white" />
+
+</LinearLayout>
