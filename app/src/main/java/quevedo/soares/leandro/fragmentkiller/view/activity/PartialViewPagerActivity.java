@@ -3,6 +3,7 @@ package quevedo.soares.leandro.fragmentkiller.view.activity;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,8 @@ public class PartialViewPagerActivity extends AppCompatActivity {
 						Color.CYAN,
 						Color.YELLOW,
 						Color.RED,
+						Color.MAGENTA,
+						Color.GREEN,
 						Color.BLUE
 				};
 
@@ -60,6 +63,15 @@ public class PartialViewPagerActivity extends AppCompatActivity {
 							Button button = new Button (getContext ());
 							button.setText ("PARTIAL " + finalI);
 							viewGroup.addView (button);
+
+							EditText editText1 = new EditText (getContext ());
+							editText1.setHint ("Digite um texto aqui");
+							viewGroup.addView (editText1);
+
+							EditText editText2 = new EditText (getContext ());
+							editText2.setHint ("Digite um número aqui");
+							editText2.setInputType (InputType.TYPE_CLASS_NUMBER);
+							viewGroup.addView (editText2);
 
 							return viewGroup;
 						}

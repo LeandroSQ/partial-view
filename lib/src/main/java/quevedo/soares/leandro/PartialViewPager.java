@@ -48,11 +48,9 @@ public class PartialViewPager extends ViewGroup {
 	private int scrollOffset;
 	private float lastMotionX;
 	private int touchSlop;
-
-	private EdgeEffect leftEdgeEffect;
-	private EdgeEffect rightEdgeEffect;
-
 	private int scrollState = SCROLL_STATE_IDLE;
+
+	private boolean firstTimeLayout = true;
 
 	//<editor-fold defaultstate="collapsed" desc="Constructors">
 	public PartialViewPager (@NonNull Context context) {
@@ -86,14 +84,12 @@ public class PartialViewPager extends ViewGroup {
 		setBackgroundColor (Color.GRAY);
 
 		// Setup the scrolling variables
-		leftEdgeEffect = new EdgeEffect (getContext ());
-		rightEdgeEffect = new EdgeEffect (getContext ());
 		scroller = new Scroller (getContext ());
 		ViewConfiguration configuration = ViewConfiguration.get (getContext ());
 		touchSlop = configuration.getScaledTouchSlop ();
 
 		// We will use the method onDraw, so flag it
-		setWillNotDraw (false);
+		//setWillNotDraw (false);
 		// Wee need focusability
 		setFocusable (true);
 		// Scroll is important, but the partials are more
@@ -145,10 +141,13 @@ public class PartialViewPager extends ViewGroup {
 
 		switch (event.getAction () & MotionEventCompat.ACTION_MASK) {
 			case MotionEvent.ACTION_DOWN:
-				Log.d ("partial", "ACTION_DOWN");
+				//Log.d ("partial", "ACTION_DOWN");
 
 				// We are now dragging
 				scrollState = SCROLL_STATE_DRAGGING;
+
+				// Enable the cache
+				setScrollingCacheEnabled (true);
 
 				// Save the touch pointer, aka finger number
 				int pointerIndex = ((event.getAction () & MotionEvent.ACTION_POINTER_ID_MASK) >> MotionEvent.ACTION_POINTER_ID_SHIFT);
@@ -161,7 +160,7 @@ public class PartialViewPager extends ViewGroup {
 				lastMotionX = event.getX ();
 				break;
 			case MotionEvent.ACTION_MOVE:
-				Log.d ("partial", "ACTION_MOVE");
+				//Log.d ("partial", "ACTION_MOVE");
 
 				if (scrollState == SCROLL_STATE_IDLE) {
 					// If we did drag te minimum value and only on horizontal axis
@@ -177,21 +176,17 @@ public class PartialViewPager extends ViewGroup {
 				break;
 			case MotionEvent.ACTION_UP:
 				if (scrollState == SCROLL_STATE_DRAGGING) {
-					Log.d ("partial", "ACTION_UP");
+					//Log.d ("partial", "ACTION_UP");
 
 					// Save the motion event
 					lastMotionX = event.getX (touchPointerId);
 
 					endDrag ();
-
-					leftEdgeEffect.onRelease ();
-					rightEdgeEffect.onRelease ();
 				}
-
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				if (scrollState == SCROLL_STATE_DRAGGING) {
-					Log.d ("partial", "ACTION_CANCEL");
+					//Log.d ("partial", "ACTION_CANCEL");
 
 					lastMotionX = event.getX (touchPointerId);
 
@@ -200,10 +195,10 @@ public class PartialViewPager extends ViewGroup {
 					scroller.startScroll (getScrollX (), 0, currentPageX - getScrollX (), 0);
 					ViewCompat.postInvalidateOnAnimation (this);
 
-					scrollState = SCROLL_STATE_SETTLING;
+					// Disable the cache
+					setScrollingCacheEnabled (false);
 
-					leftEdgeEffect.onRelease ();
-					rightEdgeEffect.onRelease ();
+					scrollState = SCROLL_STATE_SETTLING;
 				}
 				break;
 		}
@@ -226,12 +221,8 @@ public class PartialViewPager extends ViewGroup {
 		// Clamp the scrollOffset to doesn't overscroll
 		if (this.scrollOffset < leftBound) {
 			this.scrollOffset = leftBound;
-
-			leftEdgeEffect.onPull (Math.abs (leftBound - this.scrollOffset) / getMeasuredWidth ());
 		} else if (this.scrollOffset > rightBound) {
 			this.scrollOffset = rightBound;
-
-			rightEdgeEffect.onPull (Math.abs (this.scrollOffset - rightBound) / getMeasuredWidth ());
 		}
 
 		// Scroll to the specified offset
@@ -269,15 +260,12 @@ public class PartialViewPager extends ViewGroup {
 		// Set the new current page
 		this.currentItemPosition = targetPage;
 
-		Log.d ("partial", "diff: " + diff);
-
 		// Start the scrolling
 		scroller.forceFinished (true);
 		scroller.startScroll (Math.round (scrollOffset), 0, diff, 0);
 
 		// We need to invalidate
 		ViewCompat.postInvalidateOnAnimation (PartialViewPager.this);
-
 
 		// We are no more dragging at this time, set it to false
 		scrollState = SCROLL_STATE_SETTLING;
@@ -301,15 +289,17 @@ public class PartialViewPager extends ViewGroup {
 			scroller.abortAnimation ();
 
 			int oldX = getScrollX ();
-			int x = scroller.getCurrX ();
+			scrollOffset = scroller.getCurrX ();
 
 			// Check if we need to move
-			if (oldX != x) {
-				scrollOffset = x;
-				smoothScrollTo (x);
+			if (oldX != scrollOffset) {
+				smoothScrollTo (scrollOffset);
 			} else {
 				// Otherwise flag the scrolling as finished
 				scrollState = SCROLL_STATE_IDLE;
+
+				// Disable the cache
+				setScrollingCacheEnabled (false);
 			}
 		}
 	}
@@ -323,6 +313,9 @@ public class PartialViewPager extends ViewGroup {
 			scrollOffset = x;
 			scrollTo (x, 0);
 			scrollState = SCROLL_STATE_IDLE;
+
+			// Disable the cache
+			setScrollingCacheEnabled (false);
 			return;
 		}
 
@@ -341,7 +334,8 @@ public class PartialViewPager extends ViewGroup {
 	}
 
 	public void setCurrentItemPosition (int newPosition) {
-		if (newPosition < 0 || newPosition >= partials.size ()) throw new IndexOutOfBoundsException ("The specified index doesn't exists.");
+		if (newPosition < 0 || newPosition >= partials.size ())
+			throw new IndexOutOfBoundsException ("The specified index doesn't exists.");
 
 		// Calculate the new page coordinates
 		int pageX = newPosition * getMeasuredWidth ();
@@ -350,20 +344,23 @@ public class PartialViewPager extends ViewGroup {
 		// Save the new current position
 		this.currentItemPosition = newPosition;
 	}
-	//</editor-fold>
 
-
-	@Override
-	public void draw (Canvas canvas) {
-		super.draw (canvas);
-
-		leftEdgeEffect.draw (canvas);
-		rightEdgeEffect.draw (canvas);
+	private void setScrollingCacheEnabled (boolean enabled) {
+		final int size = getChildCount ();
+		for (int i = 0; i < size; ++i) {
+			final View child = getChildAt (i);
+			if (child.getVisibility () != GONE) {
+				child.setDrawingCacheEnabled (enabled);
+			}
+		}
 	}
+	//</editor-fold>
 
 	@Override
 	protected void onLayout (boolean changed, int i1, int i2, int i3, int i4) {
-		int currentLeft = this.getPaddingLeft () - scrollOffset;
+		int currentLeft = this.getPaddingLeft ();
+
+		setScrollingCacheEnabled (false);
 
 		for (int i = 0; i < this.getPartialCount (); i++) {
 			PartialView partial = this.partials.get (i);
@@ -400,6 +397,8 @@ public class PartialViewPager extends ViewGroup {
 			partial.measure (widthMeasureSpec, heightMeasureSpec);
 		}
 	}
+
+
 
 
 }

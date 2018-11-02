@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	package="quevedo.soares.leandro.fragmentkiller">
 
 	<application
@@ -9,7 +10,8 @@
 		android:largeHeap="true"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
-		android:theme="@style/AppTheme">
+		android:theme="@style/AppTheme"
+		tools:ignore="GoogleAppIndexingWarning">
 		<activity android:name=".view.activity.MainActivity">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -23,7 +25,10 @@
 		<activity
 			android:name=".view.activity.MultipleStepsActivity"
 			android:screenOrientation="portrait" />
-		<activity android:name=".view.activity.PartialViewPagerActivity"></activity>
+		<activity
+			android:name=".view.activity.PartialViewPagerActivity"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="adjustResize" />
 	</application>
 
 </manifest>
