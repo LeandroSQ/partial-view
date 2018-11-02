@@ -23,6 +23,7 @@
 		<activity
 			android:name=".view.activity.MultipleStepsActivity"
 			android:screenOrientation="portrait" />
+		<activity android:name=".view.activity.PartialViewPagerActivity"></activity>
 	</application>
 
 </manifest>

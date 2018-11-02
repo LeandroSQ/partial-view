@@ -24,4 +24,8 @@ public class MainActivity extends AppCompatActivity {
 		startActivity (new Intent (MainActivity.this, MultipleStepsActivity.class));
 	}
 
+	public void openViewPager (View view) {
+		startActivity (new Intent (MainActivity.this, PartialViewPagerActivity.class));
+	}
+
 }
