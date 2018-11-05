@@ -136,10 +136,12 @@ public class StepViewActivity extends AppCompatActivity {
 	}
 
 	private void nextStep () {
-		stepView.nextStep ();
+		if (stepView.getCurrentStep () < lnSteps.getChildCount ())
+			stepView.nextStep ();
 	}
 
 	private void previousStep () {
-		stepView.previousStep ();
+		if (stepView.getCurrentStep () > 0)
+			stepView.previousStep ();
 	}
 }

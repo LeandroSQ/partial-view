@@ -204,6 +204,10 @@ public class PartialStepView extends ViewGroup {
 
 	//<editor-fold defaultstate="collapsed" desc="Stepping behaviour">
 
+	public int getCurrentStep () {
+		return this.currentItemPosition;
+	}
+
 	/**
 	 * Skips to the specified step
 	 *
