@@ -20,12 +20,15 @@ public class MainActivity extends AppCompatActivity {
 		startActivity (new Intent (MainActivity.this, RegisterAndListingActvity.class));
 	}
 
-	public void openMultipleSteps (View view) {
-		startActivity (new Intent (MainActivity.this, MultipleStepsActivity.class));
+	public void openViewFlipper (View view) {
+		startActivity (new Intent (MainActivity.this, ViewFlipperActivity.class));
 	}
 
 	public void openViewPager (View view) {
 		startActivity (new Intent (MainActivity.this, PartialViewPagerActivity.class));
 	}
 
+	public void openStepView (View view) {
+		startActivity (new Intent (MainActivity.this, StepViewActivity.class));
+	}
 }

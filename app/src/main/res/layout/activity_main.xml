@@ -31,8 +31,8 @@
 		android:layout_marginTop="16dp"
 		android:background="@drawable/shape_button"
 		android:foreground="?attr/selectableItemBackground"
-		android:onClick="openMultipleSteps"
-		android:text="Múltiplos passos"
+		android:onClick="openViewFlipper"
+		android:text="View flipper"
 		android:textColor="@android:color/white" />
 
 	<Button
@@ -43,6 +43,16 @@
 		android:foreground="?attr/selectableItemBackground"
 		android:onClick="openViewPager"
 		android:text="View pager"
+		android:textColor="@android:color/white" />
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:background="@drawable/shape_button"
+		android:foreground="?attr/selectableItemBackground"
+		android:onClick="openStepView"
+		android:text="Fluxo com passos"
 		android:textColor="@android:color/white" />
 
 </LinearLayout>

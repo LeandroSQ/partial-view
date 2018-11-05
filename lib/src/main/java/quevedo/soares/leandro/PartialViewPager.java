@@ -15,7 +15,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.EdgeEffect;
+import android.widget.OverScroller;
 import android.widget.Scroller;
 
 import java.util.ArrayList;
@@ -27,15 +31,15 @@ public class PartialViewPager extends ViewGroup {
 	 * Indicates that the pager is in an idle, settled state. The current page
 	 * is fully in view and no animation is in progress.
 	 */
-	public static final int SCROLL_STATE_IDLE = 0;
+	static final int SCROLL_STATE_IDLE = 0;
 	/**
 	 * Indicates that the pager is currently being dragged by the user.
 	 */
-	public static final int SCROLL_STATE_DRAGGING = 1;
+	static final int SCROLL_STATE_DRAGGING = 1;
 	/**
 	 * Indicates that the pager is in the process of settling to a final position.
 	 */
-	public static final int SCROLL_STATE_SETTLING = 2;
+	static final int SCROLL_STATE_SETTLING = 2;
 	//</editor-fold>
 
 	private ArrayList<PartialView> partials;
@@ -49,8 +53,6 @@ public class PartialViewPager extends ViewGroup {
 	private float lastMotionX;
 	private int touchSlop;
 	private int scrollState = SCROLL_STATE_IDLE;
-
-	private boolean firstTimeLayout = true;
 
 	//<editor-fold defaultstate="collapsed" desc="Constructors">
 	public PartialViewPager (@NonNull Context context) {
@@ -80,11 +82,9 @@ public class PartialViewPager extends ViewGroup {
 	//</editor-fold>
 
 	private void init () {
-		// Debug
-		setBackgroundColor (Color.GRAY);
-
 		// Setup the scrolling variables
 		scroller = new Scroller (getContext ());
+
 		ViewConfiguration configuration = ViewConfiguration.get (getContext ());
 		touchSlop = configuration.getScaledTouchSlop ();
 
@@ -333,18 +333,6 @@ public class PartialViewPager extends ViewGroup {
 		ViewCompat.postInvalidateOnAnimation (this);
 	}
 
-	public void setCurrentItemPosition (int newPosition) {
-		if (newPosition < 0 || newPosition >= partials.size ())
-			throw new IndexOutOfBoundsException ("The specified index doesn't exists.");
-
-		// Calculate the new page coordinates
-		int pageX = newPosition * getMeasuredWidth ();
-		// Go to the new page
-		smoothScrollTo (pageX);
-		// Save the new current position
-		this.currentItemPosition = newPosition;
-	}
-
 	private void setScrollingCacheEnabled (boolean enabled) {
 		final int size = getChildCount ();
 		for (int i = 0; i < size; ++i) {
@@ -398,7 +386,19 @@ public class PartialViewPager extends ViewGroup {
 		}
 	}
 
+	public void setCurrentItemPosition (int newPosition) {
+		if (newPosition < 0 || newPosition >= partials.size ())
+			throw new IndexOutOfBoundsException ("The specified index doesn't exists.");
 
+		// Calculate the new page coordinates
+		int pageX = newPosition * getMeasuredWidth ();
+		// Go to the new page
+		smoothScrollTo (pageX);
+		// Save the new current position
+		this.currentItemPosition = newPosition;
+	}
 
-
+	public int getCurrentItemPosition () {
+		return currentItemPosition;
+	}
 }

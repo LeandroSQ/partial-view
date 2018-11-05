@@ -8,8 +8,6 @@ public abstract class PartialViewPagerAdapter {
 
 	public abstract int getPartialCount ();
 
-	public void onShowPartial (int position) {}
-
-	public void onHidePartial (int position) {}
+	public void onShowView (int position) {}
 
 }

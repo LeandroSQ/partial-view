@@ -23,12 +23,13 @@
 			android:name=".view.activity.RegisterAndListingActvity"
 			android:screenOrientation="portrait" />
 		<activity
-			android:name=".view.activity.MultipleStepsActivity"
+			android:name=".view.activity.ViewFlipperActivity"
 			android:screenOrientation="portrait" />
 		<activity
 			android:name=".view.activity.PartialViewPagerActivity"
 			android:screenOrientation="portrait"
 			android:windowSoftInputMode="adjustResize" />
+		<activity android:name=".view.activity.StepViewActivity"></activity>
 	</application>
 
 </manifest>
